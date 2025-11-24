@@ -18,8 +18,8 @@ const Register = async (req, res) => {
   }
 
   const sql =
-    "INSERT INTO auth (first_name, last_name, email, password, role, userId) VALUES (?, ?, ?, ?, ?, ?)";
-  const value = [first_name, last_name, email, hashPassword, "USER", userUuid];
+    "INSERT INTO users (id, first_name, last_name, email, password_hash) VALUES (?, ?, ?, ?, ?)";
+  const value = [userUuid, first_name, last_name, email, hashPassword];
 
   // sqlite3 with Promises
   db.run(sql, value, function (error) {

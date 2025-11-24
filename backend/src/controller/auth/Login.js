@@ -4,7 +4,7 @@ const { LoginData } = require("./LoginData");
 
 const Login = async (req, res) => {
   const { email, password } = req.body;
-  const sql = "SELECT * FROM auth WHERE email = ?";
+  const sql = "SELECT * FROM users WHERE email = ?";
   const value = [email];
 
   db.get(sql, value, (error, row) => {
@@ -18,7 +18,7 @@ const Login = async (req, res) => {
       if (
         !row ||
         email !== row.email ||
-        !bcrypt.compareSync(password, row.password)
+        !bcrypt.compareSync(password, row.password_hash)
       ) {
         res.status(200).send({
           success: false,

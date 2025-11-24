@@ -30,6 +30,21 @@ const db = new sqlite3.Database(
       console.error("Error connecting to SQLite:", err.message);
     } else {
       console.log("Connected to SQLite database at", dbPath);
+
+      // Ensure tables are created from init.sql if not present
+      const initPath = path.join(__dirname, "init.sql");
+      if (fs.existsSync(initPath)) {
+        const initSql = fs.readFileSync(initPath, "utf8");
+        db.exec(initSql, (err) => {
+          if (err) {
+            console.error("Error running init.sql:", err.message);
+          } else {
+            console.log("Database tables ensured by init.sql");
+          }
+        });
+      } else {
+        console.warn("init.sql not found. No tables ensured.");
+      }
     }
   }
 );
